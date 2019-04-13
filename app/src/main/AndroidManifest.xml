@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ledwon.jakub.githubapiclient">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -18,9 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.ShowReposActivity">
+        <activity android:name=".ui.ShowReposActivity"/>
 
-        </activity>
+        <activity android:name=".ui.RepoDetailsActivity"/>
     </application>
 
 </manifest>

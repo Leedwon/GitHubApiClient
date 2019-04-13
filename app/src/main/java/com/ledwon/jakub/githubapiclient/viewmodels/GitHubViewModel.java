@@ -11,10 +11,11 @@ import androidx.lifecycle.ViewModel;
 public class GitHubViewModel extends ViewModel {
     private GitHubRepository gitHubRepository;
 
-    GitHubViewModel(){
+    public GitHubViewModel() {
         gitHubRepository = new GitHubRepository();
     }
 
-    public LiveData<List<Repo>> getRepos(String username) {return gitHubRepository.getRepos(username);}
+    public LiveData<List<Repo>> getListRepos(String username) {return gitHubRepository.getListRepos(username);}
 
+    public LiveData<Repo> getRepo(String username, String repo) {return gitHubRepository.getRepo(username, repo);}
 }

@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.ledwon.jakub.githubapiclient.R;
 import com.ledwon.jakub.githubapiclient.databinding.ActivityMainBinding;
-import com.ledwon.jakub.githubapiclient.repository.GitHubRepository;
 
 public class MainActivity extends AppCompatActivity implements IMainActivity {
     private ActivityMainBinding mBinding;
@@ -23,9 +22,6 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         mBinding = DataBindingUtil.bind(rootView);
 
         mBinding.setIMainActivity(this);
-
-        GitHubRepository repo = new GitHubRepository();
-        repo.getRepos("leedwon");
     }
 
     private boolean validateUsername(){
@@ -35,15 +31,14 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         }
         mBinding.inputLayoutUsername.setError(null);
         return true;
-
     }
 
     @Override
     public void searchRepos() {
         if(validateUsername()){
-            Intent intent = new Intent(this, ShowReposActivity.class);
             String username = mBinding.inputLayoutUsername.getEditText().getText().toString().trim();
-            intent.putExtra(ShowReposActivity.BUNDLE_KEY_USERNAME, username);
+            Intent intent = new Intent(this, ShowReposActivity.class);
+            intent.putExtra(ShowReposActivity.SHOW_REPOS_BUNDLE_KEY_USERNAME, username);
 
             startActivity(intent);
         }

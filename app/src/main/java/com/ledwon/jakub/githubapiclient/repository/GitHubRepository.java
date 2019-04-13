@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.ledwon.jakub.githubapiclient.repository.data.Repo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.lifecycle.LiveData;
@@ -12,49 +11,62 @@ import androidx.lifecycle.MutableLiveData;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class GitHubRepository {
     private static final String TAG = "GitHubRepository";
 
-    public static final String BASE_URL = "https://api.github.com/";
+    public GitHubRepository() {
 
-    private Retrofit mRetrofit;
-
-    private GitHubApi mGithubApi;
-
-    public GitHubRepository(){
-        mRetrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        mGithubApi = mRetrofit.create(GitHubApi.class);
     }
 
-    public LiveData<List<Repo>> getRepos(String username){
-        Call<List<Repo>> call = mGithubApi.listRepos(username);
+    public LiveData<List<Repo>> getListRepos(final String username) {
+        Call<List<Repo>> call = GitHubRetrofit.getGitHubApi().getListRepos(username);
 
         final MutableLiveData<List<Repo>> data = new MutableLiveData<>();
 
         call.enqueue(new Callback<List<Repo>>() {
             @Override
-            public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
-                if(response.isSuccessful()){
+            public void onResponse
+                    (Call<List<Repo>> call, Response<List<Repo>> response) {
+                if (response.isSuccessful()) {
                     data.postValue(response.body());
-                    for (Repo repo : response.body()){
+                    for (Repo repo : response.body()) {
                         Log.d(TAG, "onResponse: " + repo.toString());
                     }
+                } else if (response.code() == 404) {
+                    data.setValue(null);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Repo>> call, Throwable t) {
                 data.setValue(null);
+                Log.d(TAG, "onFailure: ");
             }
         });
 
+        return data;
+    }
+
+    public LiveData<Repo> getRepo(String username, String repo) {
+        Call<Repo> call = GitHubRetrofit.getGitHubApi().getRepo(username, repo);
+
+        final MutableLiveData<Repo> data = new MutableLiveData<>();
+
+        call.enqueue(new Callback<Repo>() {
+            @Override
+            public void onResponse(Call<Repo> call, Response<Repo> response) {
+                if (response.isSuccessful()) {
+                    data.postValue(response.body());
+                    Log.d(TAG, "onResponse: " + response.body().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Repo> call, Throwable t) {
+                data.setValue(null);
+            }
+        });
         return data;
     }
 }
