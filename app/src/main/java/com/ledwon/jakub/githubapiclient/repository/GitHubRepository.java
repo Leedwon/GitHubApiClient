@@ -2,7 +2,9 @@ package com.ledwon.jakub.githubapiclient.repository;
 
 import android.util.Log;
 
+import com.ledwon.jakub.githubapiclient.repository.data.ListOfReposResponse;
 import com.ledwon.jakub.githubapiclient.repository.data.Repo;
+import com.ledwon.jakub.githubapiclient.repository.data.RepoResponse;
 
 import java.util.List;
 
@@ -15,56 +17,62 @@ import retrofit2.Response;
 public class GitHubRepository {
     private static final String TAG = "GitHubRepository";
 
-    public GitHubRepository() {
 
+    private GitHubApi mGitHubApi;
+
+    public GitHubRepository(){
+        mGitHubApi = GitHubRetrofit.getGitHubApi();
     }
 
-    public LiveData<List<Repo>> getListRepos(final String username) {
-        Call<List<Repo>> call = GitHubRetrofit.getGitHubApi().getListRepos(username);
+    public LiveData<ListOfReposResponse> getListOfRepos(final String username) {
+        Call<List<Repo>> call = mGitHubApi.getListOfRepos(username);
 
-        final MutableLiveData<List<Repo>> data = new MutableLiveData<>();
+        final MutableLiveData<ListOfReposResponse> data = new MutableLiveData<>();
 
         call.enqueue(new Callback<List<Repo>>() {
             @Override
-            public void onResponse
-                    (Call<List<Repo>> call, Response<List<Repo>> response) {
+            public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
                 if (response.isSuccessful()) {
-                    data.postValue(response.body());
+                    Log.d(TAG, "onResponse getListOfRepos code :" + response.code());
+
+                    data.postValue(new ListOfReposResponse(response.body(), response.code()));
+
                     for (Repo repo : response.body()) {
-                        Log.d(TAG, "onResponse: " + repo.toString());
+                        Log.d(TAG, "onResponse getListOfRepos: " + repo.toString());
                     }
-                } else if (response.code() == 404) {
-                    data.setValue(null);
-                }
+
+                } else
+                    data.postValue(new ListOfReposResponse(null, response.code()));
             }
 
             @Override
             public void onFailure(Call<List<Repo>> call, Throwable t) {
-                data.setValue(null);
-                Log.d(TAG, "onFailure: ");
+                Log.d(TAG, "onFailure getListOfRepos message: " + t.getMessage());
+                data.postValue(new ListOfReposResponse(t));
             }
         });
-
         return data;
     }
 
-    public LiveData<Repo> getRepo(String username, String repo) {
-        Call<Repo> call = GitHubRetrofit.getGitHubApi().getRepo(username, repo);
+    public LiveData<RepoResponse> getRepo(String username, String repo) {
+        Call<Repo> call = mGitHubApi.getRepo(username, repo);
 
-        final MutableLiveData<Repo> data = new MutableLiveData<>();
+        final MutableLiveData<RepoResponse> data = new MutableLiveData<>();
 
         call.enqueue(new Callback<Repo>() {
             @Override
             public void onResponse(Call<Repo> call, Response<Repo> response) {
+                Log.d(TAG, "onResponse getRepo code : " + response.code());
                 if (response.isSuccessful()) {
-                    data.postValue(response.body());
-                    Log.d(TAG, "onResponse: " + response.body().toString());
-                }
+                    data.postValue(new RepoResponse(response.body(), response.code()));
+                    Log.d(TAG, "onResponse getRepo : " + response.body().toString());
+                } else
+                    data.postValue(new RepoResponse(null, response.code()));
             }
-
             @Override
             public void onFailure(Call<Repo> call, Throwable t) {
-                data.setValue(null);
+                Log.d(TAG, "onFailure getRepo message: " + t.getMessage());
+                data.setValue(new RepoResponse(t));
             }
         });
         return data;

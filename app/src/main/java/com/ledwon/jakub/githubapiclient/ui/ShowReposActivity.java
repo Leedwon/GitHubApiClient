@@ -3,12 +3,13 @@ package com.ledwon.jakub.githubapiclient.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.ledwon.jakub.githubapiclient.R;
+import com.ledwon.jakub.githubapiclient.repository.data.ListOfReposResponse;
 import com.ledwon.jakub.githubapiclient.repository.data.Repo;
-import com.ledwon.jakub.githubapiclient.viewmodels.GitHubViewModel;
+import com.ledwon.jakub.githubapiclient.utils.NetworkUtils;
+import com.ledwon.jakub.githubapiclient.viewmodels.ShowReposActivityViewModel;
 
 import java.util.List;
 
@@ -22,11 +23,10 @@ import androidx.lifecycle.ViewModelProviders;
 import static com.ledwon.jakub.githubapiclient.ui.RepoDetailsActivity.REPO_DETAILS_BUNDLE_KEY_REPONAME;
 
 public class ShowReposActivity extends AppCompatActivity {
-    private static final String TAG = "ShowReposActivity";
 
     public static final String SHOW_REPOS_BUNDLE_KEY_USERNAME = "com.ledwon.jakub.githubapiclient.ui.USERNAME";
 
-    private GitHubViewModel mViewModel;
+    private ShowReposActivityViewModel mViewModel;
     private Context mContext;
 
     private ShowReposFragment mShowReposFragment;
@@ -37,7 +37,7 @@ public class ShowReposActivity extends AppCompatActivity {
         setContentView(R.layout.activity_repos);
         mContext = this;
 
-        mViewModel = ViewModelProviders.of(this).get(GitHubViewModel.class);
+        mViewModel = ViewModelProviders.of(this).get(ShowReposActivityViewModel.class);
 
         mShowReposFragment = ShowReposFragment.newInstance();
 
@@ -60,18 +60,39 @@ public class ShowReposActivity extends AppCompatActivity {
         final FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.activity_repos_fragment_container, DataLoadingFragment.newInstance()).commit();
 
-        mViewModel.getListRepos(username).observe(this, new Observer<List<Repo>>() {
+        mViewModel.getListOfRepos(username).observe(this, new Observer<ListOfReposResponse>() {
             @Override
-            public void onChanged(List<Repo> repos) {
-                if (repos != null) {
-                    fragmentManager.beginTransaction().replace(R.id.activity_repos_fragment_container, mShowReposFragment).commit();
-                    mShowReposFragment.submitReposList(repos);
-                    Log.d(TAG, "onChanged: repos loaded successfully");
+            public void onChanged(ListOfReposResponse listOfReposResponse) {
+                if (listOfReposResponse != null) {
+                    List<Repo> repos = listOfReposResponse.getListOfRepos();
+                    Integer responseCode = listOfReposResponse.getResponseCode();
+                    Throwable throwable = listOfReposResponse.getThrowable();
+
+                    if (responseCode != null) {
+                        if (responseCode == NetworkUtils.HTTP_OK) {
+                            if (repos.size() > 0) {
+                                fragmentManager.beginTransaction().replace(R.id.activity_repos_fragment_container, mShowReposFragment).commit();
+                                mShowReposFragment.submitReposList(listOfReposResponse.getListOfRepos());
+                            } else {
+                                Toast.makeText(mContext, getResources().getString(R.string.no_repos), Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        } else if (responseCode == NetworkUtils.HTTP_NOT_FOUND) {
+                            Toast.makeText(mContext, getResources().getString(R.string.no_user), Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(mContext, getResources().getString(R.string.server_response_error), Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    } else if (listOfReposResponse.getThrowable() != null) {
+                        Toast.makeText(mContext, throwable.getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
                 } else {
-                    Log.d(TAG, "onChanged: user doesn't exist");
-                    Toast.makeText(mContext, "this user doesn't exist", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, getResources().getString(R.string.sth_went_wrong), Toast.LENGTH_SHORT).show();
                     finish();
                 }
+
             }
         });
     }

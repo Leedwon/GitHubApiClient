@@ -14,17 +14,11 @@ public class Repo {
     @SerializedName("fork")
     private boolean mFork;
 
-    /*
-        Integer instead of int for data binding purposes
-     */
     @SerializedName("forks_count")
-    private Integer mForksCount;
+    private int mForksCount;
 
-    /*
-        Integer instead of int for data binding purposes
-    */
     @SerializedName("watchers_count")
-    private Integer mWatchers;
+    private int mWatchers;
 
     @SerializedName("language")
     private String mLanguage;
@@ -38,7 +32,14 @@ public class Repo {
     @NonNull
     @Override
     public String toString() {
-        return ("name " + mName + "\nfork " + "\nownerName " + mOwner.toString() + "\nis fork " + mFork + "\nforks count " + mForksCount + "\nwatchers " + mWatchers + "\nlanguage " + mLanguage + "\nlink " + mHtmlUrl + "\ndescription " + mDescription);
+        return ("name " + mName + "\n"
+                + "owner " + mOwner.toString() + "\n"
+                + "is fork " + mFork + "\n"
+                + "forks count " + mForksCount + "\n"
+                + "watchers " + mWatchers + "\n"
+                + "language " + mLanguage + "\n"
+                + "link " + mHtmlUrl + "\n"
+                + "description " + mDescription);
     }
 
     public String getName() {
@@ -53,11 +54,11 @@ public class Repo {
         return mFork;
     }
 
-    public Integer getForksCount() {
+    public int getForksCount() {
         return mForksCount;
     }
 
-    public Integer getWatchers() {
+    public int getWatchers() {
         return mWatchers;
     }
 

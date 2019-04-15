@@ -6,9 +6,11 @@ import androidx.databinding.DataBindingUtil;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.ledwon.jakub.githubapiclient.R;
 import com.ledwon.jakub.githubapiclient.databinding.ActivityMainBinding;
+import com.ledwon.jakub.githubapiclient.utils.NetworkUtils;
 
 public class MainActivity extends AppCompatActivity implements IMainActivity {
     private ActivityMainBinding mBinding;
@@ -24,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         mBinding.setIMainActivity(this);
     }
 
-    private boolean validateUsername(){
+    private boolean validateUsernameAndSetError(){
         if(mBinding.inputLayoutUsername.getEditText().getText().toString().trim().isEmpty()){
             mBinding.inputLayoutUsername.setError(getResources().getString(R.string.edit_text_username_error));
             return false;
@@ -35,13 +37,15 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     @Override
     public void searchRepos() {
-        if(validateUsername()){
-            String username = mBinding.inputLayoutUsername.getEditText().getText().toString().trim();
-            Intent intent = new Intent(this, ShowReposActivity.class);
-            intent.putExtra(ShowReposActivity.SHOW_REPOS_BUNDLE_KEY_USERNAME, username);
-
-            startActivity(intent);
-        }
+        if(NetworkUtils.isNetworkAvailable(this)) {
+            if (validateUsernameAndSetError()) {
+                String username = mBinding.inputLayoutUsername.getEditText().getText().toString().trim();
+                Intent intent = new Intent(this, ShowReposActivity.class);
+                intent.putExtra(ShowReposActivity.SHOW_REPOS_BUNDLE_KEY_USERNAME, username);
+                startActivity(intent);
+            }
+        } else
+            Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
 
     }
 }

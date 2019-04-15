@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.ledwon.jakub.githubapiclient.R;
 import com.ledwon.jakub.githubapiclient.databinding.FragmentRepoDetailsBinding;
@@ -31,16 +30,11 @@ public class RepoDetailsFragment extends Fragment {
         Bundle bundle = getArguments();
         Repo repo = RepoJsonConverter.toRepo(bundle.getString(REPO_DETAILS_BUNDLE_KEY_REPO));
 
-        if(repo == null){
-            Toast.makeText(getActivity(), getString(R.string.sth_went_wrong), Toast.LENGTH_SHORT).show();
-            getActivity().finish();
-        }
-
         mBinding = DataBindingUtil.bind(rootView);
 
         mBinding.setRepo(repo);
         mBinding.setNoDescriptionString(getString(R.string.no_description));
-        
+
         return rootView;
     }
 }
