@@ -42,6 +42,6 @@ public class RepoDetailsFragment extends Fragment {
         mBinding.setRepo(repo);
         mBinding.setNoDescriptionString(getString(R.string.no_description));
 
-        return rootView;
+        return mBinding.getRoot();
     }
 }

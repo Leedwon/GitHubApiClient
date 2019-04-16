@@ -16,8 +16,7 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ReposAdapter extends ListAdapter<Repo, ReposAdapter.ReposHolder> {
-    private static final String TAG = "ReposAdapter";
-    
+
     private ReposAdapter.onItemClickListener mListener;
     private RepoItemBinding mRepoItemBinding;
 
@@ -38,14 +37,12 @@ public class ReposAdapter extends ListAdapter<Repo, ReposAdapter.ReposHolder> {
     @NonNull
     @Override
     public ReposHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.d(TAG, "onCreateViewHolder: ");
         mRepoItemBinding = DataBindingUtil.bind(LayoutInflater.from(parent.getContext()).inflate(R.layout.repo_item, parent, false));
         return new ReposHolder(mRepoItemBinding.getRoot());
     }
 
     @Override
     public void onBindViewHolder(@NonNull ReposHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder: ");
         mRepoItemBinding.setRepo(getItem(position));
     }
 

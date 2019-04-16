@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.ledwon.jakub.githubapiclient.App;
 import com.ledwon.jakub.githubapiclient.di.modules.ActivitiesModule;
+import com.ledwon.jakub.githubapiclient.di.modules.AppModule;
 import com.ledwon.jakub.githubapiclient.di.modules.GitHubRepositoryModule;
 import com.ledwon.jakub.githubapiclient.di.modules.ViewModelModule;
 
@@ -15,7 +16,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
 
 @Singleton
-@Component(modules = {ActivitiesModule.class, ViewModelModule.class, GitHubRepositoryModule.class, AndroidSupportInjectionModule.class})
+@Component(modules = {ActivitiesModule.class, ViewModelModule.class, GitHubRepositoryModule.class, AndroidSupportInjectionModule.class, AppModule.class})
 public interface AppComponent extends AndroidInjector<App> {
 
     @Component.Builder

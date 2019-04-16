@@ -21,8 +21,8 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         super.onCreate(savedInstanceState);
 
         View rootView = getLayoutInflater().inflate(R.layout.activity_main, null);
-        setContentView(rootView);
         mBinding = DataBindingUtil.bind(rootView);
+        setContentView(mBinding.getRoot());
 
         mBinding.setIMainActivity(this);
     }

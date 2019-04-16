@@ -1,5 +1,6 @@
 package com.ledwon.jakub.githubapiclient.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -28,12 +29,16 @@ public class RepoDetailsActivity extends AppCompatActivity {
     public static final String REPO_DETAILS_BUNDLE_KEY_REPONAME = "com.ledwon.jakub.githubapiclient.ui.REPONAME";
 
     @Inject
-    ViewModelFactory viewModelFactory;
+    RepoDetailsFragment repoDetailsFragment;
+    @Inject
+    DataLoadingFragment dataLoadingFragment;
 
+    @Inject
+    ViewModelFactory viewModelFactory;
     private RepoDetailsActivityViewModel mViewModel;
 
-    RepoDetailsFragment repoDetailsFragment;
-    DataLoadingFragment dataLoadingFragment;
+    @Inject
+    Context context;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,10 +48,8 @@ public class RepoDetailsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_repo_details);
 
-        repoDetailsFragment = RepoDetailsFragment.newInstance();
-        dataLoadingFragment = DataLoadingFragment.newInstance();
-
         final FragmentManager fragmentManager = getSupportFragmentManager();
+
         fragmentManager.beginTransaction().replace(R.id.activity_repo_details_fragment_container, dataLoadingFragment);
 
         mViewModel = ViewModelProviders.of(this, viewModelFactory).get(RepoDetailsActivityViewModel.class);
@@ -58,34 +61,28 @@ public class RepoDetailsActivity extends AppCompatActivity {
         mViewModel.getRepo(username, repo).observe(this, new Observer<RepoResponse>() {
             @Override
             public void onChanged(RepoResponse repoResponse) {
-                if(repoResponse != null){
-                    Repo repo = repoResponse.getRepo();
-                    Integer responseCode = repoResponse.getResponseCode();
-                    Throwable throwable = repoResponse.getThrowable();
+                if (!repoResponse.hasFailed()) {
+                    if (repoResponse.getResponseCode() == NetworkUtils.HTTP_OK) {
+                        repoDetailsFragment.setArguments(createRepoBundle(repoResponse.getRepo()));
+                        fragmentManager.beginTransaction().replace(R.id.activity_repo_details_fragment_container, repoDetailsFragment).commit();
+                    } else
+                        displayToastAndFinish(getResources().getString(R.string.server_response_error));
+                } else
+                    displayToastAndFinish(repoResponse.getThrowable().getMessage());
 
-                    if(responseCode != null){
-                        if(responseCode == NetworkUtils.HTTP_OK){
-                            repoDetailsFragment.setArguments(createRepoBundle(repo));
-                            fragmentManager.beginTransaction().replace(R.id.activity_repo_details_fragment_container, repoDetailsFragment).commit();
-                        } else {
-                            Toast.makeText(RepoDetailsActivity.this, getResources().getString(R.string.server_response_error), Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    } else if(throwable != null){
-                        Toast.makeText(RepoDetailsActivity.this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                } else {
-                    Toast.makeText(RepoDetailsActivity.this, getResources().getString(R.string.sth_went_wrong), Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
 
-    private Bundle createRepoBundle(Repo repo){
+    private Bundle createRepoBundle(Repo repo) {
         Bundle bundle = new Bundle();
         bundle.putString(RepoDetailsFragment.REPO_DETAILS_BUNDLE_KEY_REPO, RepoJsonConverter.toJsonString(repo));
         return bundle;
+    }
+
+    private void displayToastAndFinish(String toastMessage) {
+        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
+        finish();
     }
 
 }

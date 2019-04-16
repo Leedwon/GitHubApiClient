@@ -2,22 +2,33 @@ package com.ledwon.jakub.githubapiclient.data.responses;
 
 /*
     For better error handling every response extends this class
-    CallResponse can store response code if response was received
-    or it can fail to execute and in that case it stores throwable
-    and throwable if appeared otherwise it's a null
+    CallResponse stores response code if response was received
+    or throwable when call fails
  */
-public class CallResponse {
+public abstract class CallResponse {
     private Throwable mThrowable;
     private Integer mResponseCode;
 
+    /*
+        @param mResponseCode - Call's HTTP response status code
+        constructor to be used when Call succeeds and we want to store response code
+    */
     public CallResponse(Integer mResponseCode) {
         this.mResponseCode = mResponseCode;
         this.mThrowable = null;
     }
 
-    public CallResponse(Throwable mTrowable) {
-        this.mThrowable = mTrowable;
+    /*
+        @param mThrowable - Call's throwable
+        constructor to be used when Call fails and we want to store error
+     */
+    public CallResponse(Throwable mThrowable) {
+        this.mThrowable = mThrowable;
         this.mResponseCode = null;
+    }
+
+    public boolean hasFailed(){
+        return mResponseCode == null;
     }
 
     public Throwable getThrowable() {

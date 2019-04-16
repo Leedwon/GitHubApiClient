@@ -27,13 +27,13 @@ public class ShowReposFragment extends Fragment {
     public static ShowReposFragment newInstance() {return  new ShowReposFragment();}
 
     /*
-        Normally we shouldn't override Fragment's constructor
-        especially if we want to pass some arguments to fragment because when android decides to recreate Fragment it will use no argument constructor
+        Most often we shouldn't override Fragment's constructor
+        especially if we want to pass some arguments to fragment, because when android decides to recreate Fragment it will use no argument constructor
         that's why we are using newInstance() where we can .setArguments(Bundle bundle) to our fragment.
-        But this one is a special case as we are not passing any arguments anyway, and we need our mAdapter to be created asap
-        otherwise mAdapter would be null when we call submitReposList
+        But here we are not passing any arguments, and we need our mAdapter to be created before we submitReposList.
+
         The other solution would be to pass Array Of Repos as JSON object via arguments to this fragment but this creates a lot of boilerplate code
-        as we can see in RepoDetailsActivity & RepoDetailsFragment so I decided not to do this
+        as we can see in RepoDetailsActivity & RepoDetailsFragment so I've chosen other approach here.
      */
     @Inject
     public ShowReposFragment() {
@@ -60,7 +60,7 @@ public class ShowReposFragment extends Fragment {
         mBinding.recyclerViewRepos.setLayoutManager(new LinearLayoutManager(getActivity()));
         mBinding.recyclerViewRepos.setHasFixedSize(true);
 
-        return rootView;
+        return mBinding.getRoot();
     }
 
     public void submitReposList(List<Repo> repos){

@@ -7,7 +7,7 @@ public class BindingUtil {
     private static final String FALSE = "false";
 
     @BindingConversion
-    public static String toString(boolean bool){
+    public static String valueOf(boolean bool){
         return bool ? TRUE : FALSE;
     }
 }

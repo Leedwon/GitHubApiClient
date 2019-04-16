@@ -33,12 +33,16 @@ public class ShowReposActivity extends AppCompatActivity {
     @Inject
     ViewModelFactory viewModelFactory;
 
-    private ShowReposActivityViewModel mViewModel;
-
-    Context context;
+    @Inject
     ShowReposFragment showReposFragment;
+
+    @Inject
     DataLoadingFragment dataLoadingFragment;
 
+    @Inject
+    Context context;
+
+    private ShowReposActivityViewModel mViewModel;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,10 +51,6 @@ public class ShowReposActivity extends AppCompatActivity {
         AndroidInjection.inject(this);
 
         setContentView(R.layout.activity_repos);
-
-        context = this;
-        showReposFragment = ShowReposFragment.newInstance();
-        dataLoadingFragment = DataLoadingFragment.newInstance();
 
         mViewModel = ViewModelProviders.of(this, viewModelFactory).get(ShowReposActivityViewModel.class);
 
@@ -76,37 +76,25 @@ public class ShowReposActivity extends AppCompatActivity {
         mViewModel.getListOfRepos(username).observe(this, new Observer<ListOfReposResponse>() {
             @Override
             public void onChanged(ListOfReposResponse listOfReposResponse) {
-                if (listOfReposResponse != null) {
-                    List<Repo> repos = listOfReposResponse.getListOfRepos();
-                    Integer responseCode = listOfReposResponse.getResponseCode();
-                    Throwable throwable = listOfReposResponse.getThrowable();
-
-                    if (responseCode != null) {
-                        if (responseCode == NetworkUtils.HTTP_OK) {
-                            if (repos.size() > 0) {
-                                fragmentManager.beginTransaction().replace(R.id.activity_repos_fragment_container, showReposFragment).commit();
-                                showReposFragment.submitReposList(listOfReposResponse.getListOfRepos());
-                            } else {
-                                Toast.makeText(context, getResources().getString(R.string.no_repos), Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                        } else if (responseCode == NetworkUtils.HTTP_NOT_FOUND) {
-                            Toast.makeText(context, getResources().getString(R.string.no_user), Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            Toast.makeText(context, getResources().getString(R.string.server_response_error), Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    } else if (listOfReposResponse.getThrowable() != null) {
-                        Toast.makeText(context, throwable.getMessage(), Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                } else {
-                    Toast.makeText(context, getResources().getString(R.string.sth_went_wrong), Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-
+                if (!listOfReposResponse.hasFailed()) {
+                    if (listOfReposResponse.getResponseCode() == NetworkUtils.HTTP_OK) {
+                        if (listOfReposResponse.getListOfRepos().size() > 0) {
+                            fragmentManager.beginTransaction().replace(R.id.activity_repos_fragment_container, showReposFragment).commit();
+                            showReposFragment.submitReposList(listOfReposResponse.getListOfRepos());
+                        } else
+                            displayToastAndFinish(getResources().getString(R.string.no_repos));
+                    } else if (listOfReposResponse.getResponseCode() == NetworkUtils.HTTP_NOT_FOUND)
+                        displayToastAndFinish(getResources().getString(R.string.no_user));
+                    else
+                        displayToastAndFinish(getResources().getString(R.string.server_response_error));
+                } else
+                    displayToastAndFinish(listOfReposResponse.getThrowable().getMessage());
             }
         });
+    }
+
+    private void displayToastAndFinish(String toastMessage) {
+        Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

@@ -18,11 +18,9 @@ import retrofit2.Response;
 
 @Singleton
 public class GitHubRepository {
-    private static final String TAG = "GitHubRepository";
-
     private GitHubApi mGitHubApi;
 
-    public GitHubRepository(GitHubApi gitHubApi){
+    public GitHubRepository(GitHubApi gitHubApi) {
         this.mGitHubApi = gitHubApi;
     }
 
@@ -35,21 +33,13 @@ public class GitHubRepository {
             @Override
             public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
                 if (response.isSuccessful()) {
-                    Log.d(TAG, "onResponse getListOfRepos code :" + response.code());
-
                     data.postValue(new ListOfReposResponse(response.body(), response.code()));
-
-                    for (Repo repo : response.body()) {
-                        Log.d(TAG, "onResponse getListOfRepos: " + repo.toString());
-                    }
-
                 } else
                     data.postValue(new ListOfReposResponse(null, response.code()));
             }
 
             @Override
             public void onFailure(Call<List<Repo>> call, Throwable t) {
-                Log.d(TAG, "onFailure getListOfRepos message: " + t.getMessage());
                 data.postValue(new ListOfReposResponse(t));
             }
         });
@@ -64,16 +54,14 @@ public class GitHubRepository {
         call.enqueue(new Callback<Repo>() {
             @Override
             public void onResponse(Call<Repo> call, Response<Repo> response) {
-                Log.d(TAG, "onResponse getRepo code : " + response.code());
-                if (response.isSuccessful()) {
+                if (response.isSuccessful())
                     data.postValue(new RepoResponse(response.body(), response.code()));
-                    Log.d(TAG, "onResponse getRepo : " + response.body().toString());
-                } else
+                else
                     data.postValue(new RepoResponse(null, response.code()));
             }
+
             @Override
             public void onFailure(Call<Repo> call, Throwable t) {
-                Log.d(TAG, "onFailure getRepo message: " + t.getMessage());
                 data.setValue(new RepoResponse(t));
             }
         });
