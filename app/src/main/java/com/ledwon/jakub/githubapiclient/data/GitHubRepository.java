@@ -1,12 +1,14 @@
-package com.ledwon.jakub.githubapiclient.repository;
+package com.ledwon.jakub.githubapiclient.data;
 
 import android.util.Log;
 
-import com.ledwon.jakub.githubapiclient.repository.data.ListOfReposResponse;
-import com.ledwon.jakub.githubapiclient.repository.data.Repo;
-import com.ledwon.jakub.githubapiclient.repository.data.RepoResponse;
+import com.ledwon.jakub.githubapiclient.data.responses.ListOfReposResponse;
+import com.ledwon.jakub.githubapiclient.data.model.Repo;
+import com.ledwon.jakub.githubapiclient.data.responses.RepoResponse;
 
 import java.util.List;
+
+import javax.inject.Singleton;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -14,14 +16,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@Singleton
 public class GitHubRepository {
     private static final String TAG = "GitHubRepository";
 
-
     private GitHubApi mGitHubApi;
 
-    public GitHubRepository(){
-        mGitHubApi = GitHubRetrofit.getGitHubApi();
+    public GitHubRepository(GitHubApi gitHubApi){
+        this.mGitHubApi = gitHubApi;
     }
 
     public LiveData<ListOfReposResponse> getListOfRepos(final String username) {

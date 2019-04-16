@@ -25,18 +25,28 @@ dependencies {
     def lifecycle_version = "2.0.0"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha4'
-    implementation 'com.google.android.material:material:1.0.0-rc01'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
 
+    /* Android Support Library  */
+    implementation 'com.google.android.material:material:1.0.0-rc01'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha4'
+
+    /* LiveData */
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
+    /* Retrofit */
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+
+    /* Dagger2 */
+    implementation 'com.google.dagger:dagger:2.17'
+    implementation 'com.google.dagger:dagger-android:2.17'
+    implementation 'com.google.dagger:dagger-android-support:2.17'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.17'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.17'
 }

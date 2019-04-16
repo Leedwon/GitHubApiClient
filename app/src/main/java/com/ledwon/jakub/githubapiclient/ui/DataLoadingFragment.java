@@ -7,11 +7,18 @@ import android.view.ViewGroup;
 
 import com.ledwon.jakub.githubapiclient.R;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class DataLoadingFragment extends Fragment {
+
+    @Inject
+    public DataLoadingFragment(){
+
+    }
 
     public static DataLoadingFragment newInstance() {
         return new DataLoadingFragment();

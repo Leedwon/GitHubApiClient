@@ -1,6 +1,6 @@
-package com.ledwon.jakub.githubapiclient.repository;
+package com.ledwon.jakub.githubapiclient.data;
 
-import com.ledwon.jakub.githubapiclient.repository.data.Repo;
+import com.ledwon.jakub.githubapiclient.data.model.Repo;
 
 import java.util.List;
 

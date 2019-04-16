@@ -2,6 +2,7 @@ package com.ledwon.jakub.githubapiclient.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import dagger.android.AndroidInjection;
 
 import android.content.Intent;
 import android.os.Bundle;

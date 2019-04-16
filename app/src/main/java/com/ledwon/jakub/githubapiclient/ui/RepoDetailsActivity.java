@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.ledwon.jakub.githubapiclient.R;
-import com.ledwon.jakub.githubapiclient.repository.data.RepoResponse;
-import com.ledwon.jakub.githubapiclient.repository.data.Repo;
+import com.ledwon.jakub.githubapiclient.di.ViewModelFactory;
+import com.ledwon.jakub.githubapiclient.data.responses.RepoResponse;
+import com.ledwon.jakub.githubapiclient.data.model.Repo;
 import com.ledwon.jakub.githubapiclient.utils.NetworkUtils;
 import com.ledwon.jakub.githubapiclient.utils.RepoJsonConverter;
-import com.ledwon.jakub.githubapiclient.viewmodels.RepoDetailsActivityViewModel;
+import com.ledwon.jakub.githubapiclient.ui.viewmodels.RepoDetailsActivityViewModel;
+
+import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,23 +20,36 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import dagger.android.AndroidInjection;
 
 public class RepoDetailsActivity extends AppCompatActivity {
 
     public static final String REPO_DETAILS_BUNDLE_KEY_USERNAME = "com.ledwon.jakub.githubapiclient.ui.USERNAME";
     public static final String REPO_DETAILS_BUNDLE_KEY_REPONAME = "com.ledwon.jakub.githubapiclient.ui.REPONAME";
 
+    @Inject
+    ViewModelFactory viewModelFactory;
+
     private RepoDetailsActivityViewModel mViewModel;
+
+    RepoDetailsFragment repoDetailsFragment;
+    DataLoadingFragment dataLoadingFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AndroidInjection.inject(this);
+
         setContentView(R.layout.activity_repo_details);
 
-        final FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.activity_repo_details_fragment_container, DataLoadingFragment.newInstance());
+        repoDetailsFragment = RepoDetailsFragment.newInstance();
+        dataLoadingFragment = DataLoadingFragment.newInstance();
 
-        mViewModel = ViewModelProviders.of(this).get(RepoDetailsActivityViewModel.class);
+        final FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.activity_repo_details_fragment_container, dataLoadingFragment);
+
+        mViewModel = ViewModelProviders.of(this, viewModelFactory).get(RepoDetailsActivityViewModel.class);
 
         Intent intent = getIntent();
         String username = intent.getExtras().getString(REPO_DETAILS_BUNDLE_KEY_USERNAME);
@@ -49,7 +65,6 @@ public class RepoDetailsActivity extends AppCompatActivity {
 
                     if(responseCode != null){
                         if(responseCode == NetworkUtils.HTTP_OK){
-                            RepoDetailsFragment repoDetailsFragment = RepoDetailsFragment.newInstance();
                             repoDetailsFragment.setArguments(createRepoBundle(repo));
                             fragmentManager.beginTransaction().replace(R.id.activity_repo_details_fragment_container, repoDetailsFragment).commit();
                         } else {

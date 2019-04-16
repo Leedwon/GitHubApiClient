@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 
 import com.ledwon.jakub.githubapiclient.R;
 import com.ledwon.jakub.githubapiclient.databinding.FragmentRepoDetailsBinding;
-import com.ledwon.jakub.githubapiclient.repository.data.Repo;
+import com.ledwon.jakub.githubapiclient.data.model.Repo;
 import com.ledwon.jakub.githubapiclient.utils.RepoJsonConverter;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +21,11 @@ public class RepoDetailsFragment extends Fragment {
     public static final String REPO_DETAILS_BUNDLE_KEY_REPO = "com.ledwon.jakub.githubapiclient.ui.REPO";
 
     private FragmentRepoDetailsBinding mBinding;
+
+    @Inject
+    public RepoDetailsFragment(){
+
+    }
 
     public static RepoDetailsFragment newInstance() {return new RepoDetailsFragment();}
 

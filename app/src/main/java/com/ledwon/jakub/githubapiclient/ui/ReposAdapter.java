@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.ledwon.jakub.githubapiclient.R;
 import com.ledwon.jakub.githubapiclient.databinding.RepoItemBinding;
-import com.ledwon.jakub.githubapiclient.repository.data.Repo;
+import com.ledwon.jakub.githubapiclient.data.model.Repo;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;

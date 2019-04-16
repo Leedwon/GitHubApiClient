@@ -1,4 +1,4 @@
-package com.ledwon.jakub.githubapiclient.repository.data;
+package com.ledwon.jakub.githubapiclient.data.model;
 
 import com.google.gson.annotations.SerializedName;
 

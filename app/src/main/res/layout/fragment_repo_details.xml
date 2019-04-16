@@ -4,7 +4,7 @@
     <data>
         <variable
             name="repo"
-            type="com.ledwon.jakub.githubapiclient.repository.data.Repo"/>
+            type="com.ledwon.jakub.githubapiclient.data.model.Repo"/>
 
         <variable
             name="noDescriptionString"

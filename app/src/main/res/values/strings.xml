@@ -22,7 +22,7 @@
 
     <!-- global errors msg -->
     <string name="sth_went_wrong">something went wrong</string>
-    <string name="no_description">this mRepo has no description</string>
+    <string name="no_description">this repo has no description</string>
     <string name="no_internet">check your internet connection</string>
     <string name="no_user">this user doesn\'t exist</string>
     <string name="no_repos">this user has no repos</string>
