@@ -10,20 +10,20 @@ public class RepoResponse extends CallResponse {
     private Repo mRepo;
 
     /*
-       @param mResposneCode - Call's HTTP response status code
+       @param mResponseCode - Call's HTTP response status code
        constructor to be used when Call succeeds and we want to store response code + data
    */
-    public RepoResponse(Repo mRepo, Integer mResponseCode) {
-        super(mResponseCode);
-        this.mRepo = mRepo;
+    public RepoResponse(Repo repo, Integer responseCode) {
+        super(responseCode);
+        this.mRepo = repo;
     }
 
     /*
     @param mThrowable - Call's throwable
     constructor to be used when Call fails and we want to store error
     */
-    public RepoResponse(Throwable mThrowable) {
-        super(mThrowable);
+    public RepoResponse(Throwable throwable) {
+        super(throwable);
         this.mRepo = null;
     }
 

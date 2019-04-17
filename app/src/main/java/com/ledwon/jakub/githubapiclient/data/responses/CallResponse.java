@@ -13,8 +13,8 @@ public abstract class CallResponse {
         @param mResponseCode - Call's HTTP response status code
         constructor to be used when Call succeeds and we want to store response code
     */
-    public CallResponse(Integer mResponseCode) {
-        this.mResponseCode = mResponseCode;
+    public CallResponse(Integer responseCode) {
+        this.mResponseCode = responseCode;
         this.mThrowable = null;
     }
 
@@ -22,8 +22,8 @@ public abstract class CallResponse {
         @param mThrowable - Call's throwable
         constructor to be used when Call fails and we want to store error
      */
-    public CallResponse(Throwable mThrowable) {
-        this.mThrowable = mThrowable;
+    public CallResponse(Throwable throwable) {
+        this.mThrowable = throwable;
         this.mResponseCode = null;
     }
 

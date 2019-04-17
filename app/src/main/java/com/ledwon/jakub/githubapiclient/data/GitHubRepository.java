@@ -1,7 +1,5 @@
 package com.ledwon.jakub.githubapiclient.data;
 
-import android.util.Log;
-
 import com.ledwon.jakub.githubapiclient.data.responses.ListOfReposResponse;
 import com.ledwon.jakub.githubapiclient.data.model.Repo;
 import com.ledwon.jakub.githubapiclient.data.responses.RepoResponse;

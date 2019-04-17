@@ -20,10 +20,6 @@ public class DataLoadingFragment extends Fragment {
 
     }
 
-    public static DataLoadingFragment newInstance() {
-        return new DataLoadingFragment();
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

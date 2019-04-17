@@ -27,8 +27,6 @@ public class RepoDetailsFragment extends Fragment {
 
     }
 
-    public static RepoDetailsFragment newInstance() {return new RepoDetailsFragment();}
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

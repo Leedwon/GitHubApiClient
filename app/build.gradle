@@ -25,6 +25,12 @@ dependencies {
     def lifecycle_version = "2.0.0"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    /* testing */
+    testImplementation "com.squareup.retrofit2:retrofit-mock:2.5.0"
+    testImplementation "android.arch.core:core-testing:1.1.1"
+    testImplementation 'org.mockito:mockito-core:2.7.22'
+    androidTestImplementation 'org.mockito:mockito-android:2.7.22'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
