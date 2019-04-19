@@ -26,15 +26,6 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    /* testing */
-    testImplementation "com.squareup.retrofit2:retrofit-mock:2.5.0"
-    testImplementation "android.arch.core:core-testing:1.1.1"
-    testImplementation 'org.mockito:mockito-core:2.7.22'
-    androidTestImplementation 'org.mockito:mockito-android:2.7.22'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
-
     /* Android Support Library  */
     implementation 'com.google.android.material:material:1.0.0-rc01'
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -55,4 +46,15 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.17'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.17'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.17'
+
+    /* testing */
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test:runner:1.2.0-alpha04'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha04'
+    androidTestImplementation 'androidx.test:rules:1.1.1'
+    testImplementation "com.squareup.retrofit2:retrofit-mock:2.5.0"
+    testImplementation "android.arch.core:core-testing:1.1.1"
+    testImplementation 'org.mockito:mockito-core:2.19.0'
+    androidTestImplementation 'org.mockito:mockito-android:2.7.22'
+    testImplementation 'junit:junit:4.12'
 }

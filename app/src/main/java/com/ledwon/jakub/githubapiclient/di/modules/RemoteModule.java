@@ -2,6 +2,8 @@ package com.ledwon.jakub.githubapiclient.di.modules;
 
 import com.ledwon.jakub.githubapiclient.data.GitHubApi;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;

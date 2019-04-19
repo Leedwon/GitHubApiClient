@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class RepositoryTest {
+public class GitHubRepositoryTest {
     private static final String USERNAME = "username";
     private static final String REPO = "repo";
 
@@ -89,7 +89,7 @@ public class RepositoryTest {
     @Test
     public void loadListOfReposTest(){
         int size = 10;
-        ArrayList<Repo> mockedRepos = mockListOfRepos(10);
+        ArrayList<Repo> mockedRepos = mockListOfRepos(size);
         when(gitHubApi.getListOfRepos(USERNAME)).thenReturn(retrofit2.mock.Calls.<List<Repo>>response(mockedRepos));
 
         ListOfReposResponse reposResponse = repository.getListOfRepos(USERNAME).getValue();
