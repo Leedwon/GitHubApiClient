@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         mBinding.setIMainActivity(this);
     }
 
-    private boolean validateUsernameAndSetError(){
-        if(mBinding.inputLayoutUsername.getEditText().getText().toString().trim().isEmpty()){
+    private boolean validateUsernameAndSetError() {
+        if (mBinding.inputLayoutUsername.getEditText().getText().toString().trim().isEmpty()) {
             mBinding.inputLayoutUsername.setError(getResources().getString(R.string.edit_text_username_error));
             return false;
         }
@@ -38,15 +38,14 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
 
     @Override
     public void searchRepos() {
-        if(NetworkUtils.isNetworkAvailable(this)) {
-            if (validateUsernameAndSetError()) {
+        if (validateUsernameAndSetError()) {
+            if (NetworkUtils.isNetworkAvailable(this)) {
                 String username = mBinding.inputLayoutUsername.getEditText().getText().toString().trim();
                 Intent intent = new Intent(this, ShowReposActivity.class);
                 intent.putExtra(ShowReposActivity.SHOW_REPOS_BUNDLE_KEY_USERNAME, username);
                 startActivity(intent);
-            }
-        } else
-            Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
-
+            } else
+                Toast.makeText(this, getResources().getString(R.string.no_internet), Toast.LENGTH_SHORT).show();
+        }
     }
 }
