@@ -3,7 +3,7 @@ package com.ledwon.jakub.githubapiclient.data.responses;
 /*
     For better error handling every response extends this class
     CallResponse stores response code if response was received
-    or throwable when call fails
+    or throwable when call failed
  */
 public abstract class CallResponse {
     private Throwable mThrowable;
