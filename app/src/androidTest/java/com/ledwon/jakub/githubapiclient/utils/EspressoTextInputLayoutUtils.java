@@ -1,4 +1,4 @@
-package com.ledwon.jakub.githubapiclient;
+package com.ledwon.jakub.githubapiclient.utils;
 
 
 import android.widget.EditText;
@@ -15,7 +15,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
 
-class EspressoTextInputLayoutUtils {
+public class EspressoTextInputLayoutUtils {
     /*
      *  find the edit text within the TextInputLayout.
      */
