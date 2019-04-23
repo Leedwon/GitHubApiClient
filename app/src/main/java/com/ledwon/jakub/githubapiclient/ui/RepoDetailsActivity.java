@@ -50,7 +50,7 @@ public class RepoDetailsActivity extends AppCompatActivity {
 
         final FragmentManager fragmentManager = getSupportFragmentManager();
 
-        fragmentManager.beginTransaction().replace(R.id.activity_repo_details_fragment_container, dataLoadingFragment);
+        fragmentManager.beginTransaction().replace(R.id.activity_repo_details_fragment_container, dataLoadingFragment).commit();
 
         mViewModel = ViewModelProviders.of(this, viewModelFactory).get(RepoDetailsActivityViewModel.class);
 
