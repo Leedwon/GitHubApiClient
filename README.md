@@ -3,7 +3,7 @@
 A simple project for presenting github's repos based on **MVVM clean architecrure**.
 
 #### App Features
-* finding repos that belongs user.
+* finding repos that belongs to user.
 * displaying repo details.
 
 <img src="https://github.com/Leedwon/GitHubApiClient/blob/master/media/tmp.png" width="500" style="max-width:500%;">
