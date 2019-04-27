@@ -6,7 +6,7 @@ A simple project for presenting github's repos based on **MVVM clean architecrur
 * finding repos that belongs user.
 * displaying repo details.
 
-<img src="https://github.com/Leedwon/GitHubApiClient/master/media/tmp.png" width="500" style="max-width:500%;">
+<img src="https://github.com/Leedwon/GitHubApiClient/blob/master/media/tmp.png" width="500" style="max-width:500%;">
 
 #### App architecture
 * github api calls with retrofit
