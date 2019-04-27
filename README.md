@@ -1,4 +1,4 @@
-# GitHub Api Client
+# GitHubApiClient
 
 A simple project for presenting github's repos based on **MVVM clean architecrure**.
 
