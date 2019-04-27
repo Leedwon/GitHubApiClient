@@ -1,6 +1,6 @@
 # GitHubApiClient
 
-A simple project for presenting github's repos based on **MVVM clean architecrure**.
+A simple project for presenting github's repos based on **MVVM clean architecture**.
 
 #### App Features
 * finding repos that belongs to user.
