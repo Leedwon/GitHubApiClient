@@ -10,8 +10,8 @@ A simple project for presenting github's repos based on **MVVM clean architectur
 
 #### App architecture
 * github api calls with retrofit
-* repository working with api providing LiveData to be observed
-* viewModels provides data specific for ui
+* repository working with api provides RxJava2 Observables
+* viewModels observe repository calls and provide data specific for ui
 * ui showing visual representation of data in viewmodel
 * simple unit tests
 
