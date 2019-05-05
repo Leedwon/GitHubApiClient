@@ -6,9 +6,10 @@ A simple project for presenting github's repos based on **MVVM clean architectur
 * finding repos that belongs to user.
 * displaying repo details.
 
+#### App architecture
+
 <img src="https://github.com/Leedwon/GitHubApiClient/blob/master/media/tmp.png" width="500" style="max-width:500%;">
 
-#### App architecture
 * github api calls with retrofit
 * repository working with api provides RxJava2 Observables
 * viewModels observe repository calls and provide data specific for ui
