@@ -5,7 +5,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 public class NetworkUtils {
-    public static final int HTTP_OK = 200;
     public static final int HTTP_NOT_FOUND = 404;
 
     public static boolean isNetworkAvailable(Context context) {

@@ -1,5 +1,6 @@
 package com.ledwon.jakub.githubapiclient.di.modules;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.ledwon.jakub.githubapiclient.data.GitHubApi;
 
 import javax.inject.Inject;
@@ -20,6 +21,7 @@ public class RemoteModule {
     Retrofit provideRetrofit() {
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }

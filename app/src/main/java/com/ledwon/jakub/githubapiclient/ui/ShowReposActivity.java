@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import com.ledwon.jakub.githubapiclient.R;
 import com.ledwon.jakub.githubapiclient.di.ViewModelFactory;
-import com.ledwon.jakub.githubapiclient.data.responses.ListOfReposResponse;
 import com.ledwon.jakub.githubapiclient.data.model.Repo;
 import com.ledwon.jakub.githubapiclient.utils.NetworkUtils;
 import com.ledwon.jakub.githubapiclient.ui.viewmodels.ShowReposActivityViewModel;
@@ -73,23 +72,17 @@ public class ShowReposActivity extends AppCompatActivity {
         final FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.activity_repos_fragment_container, dataLoadingFragment).commit();
 
-        mViewModel.getListOfRepos(username).observe(this, new Observer<ListOfReposResponse>() {
-            @Override
-            public void onChanged(ListOfReposResponse listOfReposResponse) {
-                if (!listOfReposResponse.hasFailed()) {
-                    if (listOfReposResponse.getResponseCode() == NetworkUtils.HTTP_OK) {
-                        if (listOfReposResponse.getListOfRepos().size() > 0) {
-                            fragmentManager.beginTransaction().replace(R.id.activity_repos_fragment_container, showReposFragment).commit();
-                            showReposFragment.submitReposList(listOfReposResponse.getListOfRepos());
-                        } else
-                            displayToastAndFinish(getResources().getString(R.string.no_repos));
-                    } else if (listOfReposResponse.getResponseCode() == NetworkUtils.HTTP_NOT_FOUND)
-                        displayToastAndFinish(getResources().getString(R.string.no_user));
-                    else
-                        displayToastAndFinish(getResources().getString(R.string.server_response_error));
-                } else
-                    displayToastAndFinish(listOfReposResponse.getThrowable().getMessage());
-            }
+        mViewModel.fetchRepos(username);
+        mViewModel.getListOfRepos().observe(this, repos -> {
+            if (!repos.isEmpty()) {
+                fragmentManager.beginTransaction().replace(R.id.activity_repos_fragment_container, showReposFragment).commit();
+                showReposFragment.submitReposList(repos);
+            } else
+                displayToastAndFinish(getResources().getString(R.string.no_repos));
+        });
+
+        mViewModel.getUserFound().observe(this, bool -> {
+            if (!bool) displayToastAndFinish(getResources().getString(R.string.no_user));
         });
     }
 
