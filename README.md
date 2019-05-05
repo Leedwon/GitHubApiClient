@@ -18,11 +18,10 @@ A simple project for presenting github's repos based on **MVVM clean architectur
 
 #### App packages
 * <b>data</b> - contains 
-    * <b>model</b> - contains classes responsible for implementation of repo and repoOwner.
-    * <b>responses</b> - wrapper around model that helps with error handling
-    * <b>GitHubApi.java</b> - api class responsible for network calls with usage of Retrofit
-    * <b>GitHubRepository.java</b> - repository class responsible for triggering api requests and providing LiveData.
+    * <b>model</b> - contains classes responsible for implementing repo and repoOwner.
+    * <b>GitHubApi.java</b> - api class responsible for network calls with usage of Retrofit.
+    * <b>GitHubRepository.java</b> - repository class responsible for triggering api requests and providing Observables.
 * <b>di</b> - contains dependency injection classes, using Dagger2.   
-* <b>ui</b> - contains classes needed to display Activities and Fragments
-   * <b>viewmodels</b> contains viewmodels
+* <b>ui</b> - contains classes needed to display Activities and Fragments.
+   * <b>viewmodels</b> contains viewmodels each of them provides LiveData specific for given ui.
 * <b>utils</b> - contains classes that helps with networking, databinding, json conversions.
