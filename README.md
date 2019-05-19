@@ -25,3 +25,6 @@ A simple project for presenting github's repos based on **MVVM clean architectur
 * <b>ui</b> - contains classes needed to display Activities and Fragments.
    * <b>viewmodels</b> contains viewmodels each of them provides LiveData specific for given ui.
 * <b>utils</b> - contains classes that helps with networking, databinding, json conversions.
+
+Project has now its kotlin implementation. It can be found here:
+https://github.com/Leedwon/GitHubApiClient---Kotlin
