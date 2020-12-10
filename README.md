@@ -28,5 +28,6 @@ A simple project for presenting github's repos based on **MVVM clean architectur
 
 Project has now its kotlin implementation. It can be found here:
 https://github.com/Leedwon/GitHubApiClient---Kotlin
+
 There is also work in progress with coroutines:
 https://github.com/Leedwon/GithubApiCoroutines
